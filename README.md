@@ -1,7 +1,7 @@
 # MySQL
 DBA days
 ```
-This bash script will be helpful in one time archival using trigger and backfilling based on AUTO INC pri. 
+This bash script will be helpful in one time archival using trigger and backfilling based on AUTO INC primary key. 
 Arguments:
 -d : database name
 -t : table name
@@ -10,12 +10,13 @@ Arguments:
 -l : primary key lower limit upto which the archival should continue
 -n : no create table (1/0) - default 0. needed when killed script in middle and resume  only backfilling
 ```
+
+```
 Usage: bash archive_and_drop.bash -d <database> -t <table_name> -c < check-lag 1/0> -s <slave-ip> -l <primary key limit > -n <no create table 1/0>
-  
+```  
 Example : bash archive_and_drop.bash -d test -t event_logs -c "1" -s 110.119.196.227 -l 26743099 -n 0
 
-########
-
+```
 Current database: test
 
 mysql> show tables;
@@ -95,3 +96,4 @@ rename table test.invent_logs to test.invent_logs_2018Nov04,invent_logs_triggere
 ### Mailing details
 ### END TIME : 2018-11-04 03:07:58
 ####
+```
