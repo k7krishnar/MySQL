@@ -14,7 +14,7 @@ Arguments:
 ```
 Usage: bash archive_and_drop.bash -d <database> -t <table_name> -c < check-lag 1/0> -s <slave-ip> -l <primary key limit > -n <no create table 1/0>
 ```  
-Example : bash archive_and_drop.bash -d test -t event_logs -c "1" -s 110.119.196.227 -l 26743099 -n 0
+Example : bash archive_and_drop.bash -d test -t event_logs -c "1" -s 10.20.30.40 -l 26743099 -n 0
 
 ```
 Current database: test
