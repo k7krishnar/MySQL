@@ -1,6 +1,6 @@
 # MySQL
 DBA days
-
+```
 This bash script will be helpful in one time archival using trigger and backfilling based on AUTO INC pri. 
 Arguments:
 -d : database name
@@ -9,7 +9,7 @@ Arguments:
 -s : slave ip - "default: ip of app slave where maxscale_user can connect"
 -l : primary key lower limit upto which the archival should continue
 -n : no create table (1/0) - default 0. needed when killed script in middle and resume  only backfilling
-
+```
 Usage: bash archive_and_drop.bash -d <database> -t <table_name> -c < check-lag 1/0> -s <slave-ip> -l <primary key limit > -n <no create table 1/0>
   
 Example : bash archive_and_drop.bash -d test -t event_logs -c "1" -s 110.119.196.227 -l 26743099 -n 0
