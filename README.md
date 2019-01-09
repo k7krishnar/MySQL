@@ -97,3 +97,7 @@ rename table test.invent_logs to test.invent_logs_2018Nov04,invent_logs_triggere
 ### END TIME : 2018-11-04 03:07:58
 ####
 ```
+LIMITATIONS:
+1. It relies on AUTO-INCREMENTAL PRI-key , so not compactiable with composite or varchar PRI-key.
+2. It can't be used with foreign-key tables.
+3. Using trigger on production brings its own risk and tables with existing triggers is not supported in older verions of mysql.
