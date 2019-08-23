@@ -1,5 +1,7 @@
 
 #!/bin/bash
+#Usage: sh $0 -d <database> -t <table_name> -c < check-lag 1/0> -s <slave-ip> -l <primary key limit > -n <no create table 1/0>\n "
+
 dir=$(pwd)
 exec 3>&1 4>&2
 trap 'exec 2>&4 1>&3' 0 1 2 3
@@ -83,9 +85,10 @@ minid=$(mysql $db -sNe "select min($pri_col) from $triggered_t")
 
 until [ $minid -lt $stop ]
 do
-minid=$(mysql $db -sNe "select min($pri_col) from $triggered_t")
+curid=$(mysql $db -sNe "select min($pri_col) from $triggered_t")
+minid=$(mysql $db -sNe "select max($pri_col) from $main_t where $pri_col < $curid")
 min=$(($minid-$interval))
-max=$(($minid-1))
+max=$(($minid))
 slave_check
 if [ $min -gt 0 ] || [ $max -gt 0 ];
 then
