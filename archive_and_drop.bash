@@ -83,11 +83,15 @@ fi
 
 minid=$(mysql $db -sNe "select min($pri_col) from $triggered_t")
 
-until [ $minid -lt $stop ]
+until [ $minid -le $stop ]
 do
 curid=$(mysql $db -sNe "select min($pri_col) from $triggered_t")
 minid=$(mysql $db -sNe "select max($pri_col) from $main_t where $pri_col < $curid")
 min=$(($minid-$interval))
+if [ $min -lt $stop ]
+then
+min=$stop
+fi
 max=$(($minid))
 slave_check
 if [ $min -gt 0 ] || [ $max -gt 0 ];
