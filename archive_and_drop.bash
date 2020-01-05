@@ -21,7 +21,7 @@ exit
 backfill()
 {
 interval=1001
-
+columns=$(mysql -sNe "select group_concat(column_name) from information_schema.columns where table_name='$main_t' and table_schema='$db' order by ORDINAL_POSITION");
 table_check1=$(mysql -sNe "SELECT IF( EXISTS(select TABLE_NAME from information_schema.TABLES where TABLE_NAME='$triggered_t' and TABLE_SCHEMA='$db' ),1,0);")
 if [ "$table_check1" -eq "0" ];
 then
@@ -43,7 +43,7 @@ l2=$(mysql $db -sNe "select COALESCE((select max($pri_col) from $triggered_t ),N
 if [ "$l" -eq "$l1" ] && [ "$l" != "NULL" ] && [ "$l2" = "NULL" ];
 then
 echo "Ids not moving on main table, inserting first row on triggered table"
-mysql -sNe "insert into $db.$triggered_t select * from $db.$main_t where $pri_col=$l"
+mysql -sNe "insert into $db.$triggered_t($columns) select ($columns) from $db.$main_t where $pri_col=$l"
 elif [ "$l" = "NULL" ];
 then
 echo " NULL returning on max(pri_column) on main table and exiting" && shifu
@@ -97,7 +97,7 @@ slave_check
 if [ $min -gt 0 ] || [ $max -gt 0 ];
 then
 echo " Inserting : insert into $triggered_t select * from $main_t where $pri_col between $min and $max;" 
-mysql $db -sNe "insert into $triggered_t select * from $main_t where $pri_col between $min and $max;"
+mysql $db -sNe "insert into $triggered_t($columns) select ($columns) from $main_t where $pri_col between $min and $max;"
 else
 echo " Ids are in negative; exiting" && shifu
 fi
